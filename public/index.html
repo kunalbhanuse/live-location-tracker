@@ -24,7 +24,7 @@
       crossorigin=""
     ></script>
     <script>
-      const map = L.map("map").setView([51.505, -0.09], 13);
+      const map = L.map("map").setView([20.5937, 78.9629], 5);
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
         attribution:
@@ -54,12 +54,19 @@
       }
 
       //   getUserCurrentLocation().then((p) => console.log({ p }));
+      let myCurrentLocationMarker = null;
 
       async function main() {
-        const usersLocation = await getUserCurrentLocation();
-        L.marker([usersLocation.latitude, usersLocation.longitude])
-          .addTo(map)
-          .bindPopup("u are here");
+        setInterval(async () => {
+          const { latitude, longitude } = await getUserCurrentLocation();
+          if (!myCurrentLocationMarker) {
+            myCurrentLocationMarker = L.marker([latitude, longitude])
+              .addTo(map)
+              .bindPopup("u are here");
+          } else {
+            myCurrentLocationMarker.setLatLng([latitude, longitude]);
+          }
+        }, 10 * 1000);
       }
       window.addEventListener("load", main);
     </script>
