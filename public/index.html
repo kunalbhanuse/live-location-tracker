@@ -53,7 +53,15 @@
         });
       }
 
-      getUserCurrentLocation().then((p) => console.log({ p }));
+      //   getUserCurrentLocation().then((p) => console.log({ p }));
+
+      async function main() {
+        const usersLocation = await getUserCurrentLocation();
+        L.marker([usersLocation.latitude, usersLocation.longitude])
+          .addTo(map)
+          .bindPopup("u are here");
+      }
+      window.addEventListener("load", main);
     </script>
   </body>
 </html>
